@@ -1,0 +1,14 @@
+Rate: $30/hour
+
+Give a description to the work session here.
+Start:	06/17/2013 @ 12:00PM
+Give milestone updates on high-level work here. @ 12:30PM
+Give other milestone updates on work not external of git here. @ 1PM 
+End:	06/17/2013 @ 03:00PM
+
+# Example Work session:
+
+Initial Product Software Development
+Start:	06/19/2013 @ 4:00PM
+Found 1 Potential Angel Investor. @ 4:30PM
+End:	06/19/2013 @ 05:10PM

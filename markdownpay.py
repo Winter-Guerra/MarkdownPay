@@ -1,8 +1,4 @@
-#/bin/python
-
-import sys
-import argparse
-import os.path
+#!/usr/bin/python
 
 # *******************************************
 # CC-BY-SA Winter Guerra (XtremD), June 2013.
@@ -22,6 +18,16 @@ import os.path
 #        Invoice - Optionally takes a second arg: "--Simple" or "--Detailed"
 #        Config
 # *******************************************
+
+
+import sys
+import argparse
+import os.path
+
+
+import bookkeeper
+import programmer
+import typesetter
 
 # Define global variables
 globalConfigURL = "~/.markdownpay/"
@@ -66,85 +72,7 @@ def main():
     unpaidProgrammer = Programmer();
     
     masterBookkeeper = Bookkeeper();
-    
-
-# This class should only be really used for its information definitions such as name and stuff. Acts as a sort of high level wrapper for the accountant class.
-class Programmer():
-    
-    configURL = "programmer_Info.conf"
-    
-    # Default constructor. No information was provided! Try to read the programmer's information from file.
-    def __init__(self):
-        
-        pwd = ""
-        # This will fallback to user prompting if necessary
-        config = self.getConfig(pwd)
-        
-        # Get programmer information from config.
-        self.info = config
-        
-    
-    def getConfig(self, URL):
-        
-        config = {}
-        # Open config file
-        
-        # For each line in file, walk through and find the values.
-        self.info = config
-    
-    def startWorkunit():
-        pass
-
-    def endWorkunit():
-        pass
-    
-    def requestInvoice(doDetailedInvoice):
-        # Make an invoice regardless of anything else
-        
-        if (doDetailedInvoice == true):
-            pass
-        pass
-        
-# Keeps track of getting and saving boring things such the log files, the total hours worked, the total pay, taxes, other expenses, and detailed statistical breakdowns.
-class Bookkeeper():
-    
-    configURL = globalConfigURL+"bookkeeper_Info.conf"
-    
-    # Constructor
-    def __init__(self, currentFolderURL):
-        
-        self.bookFileLocation = currentFolderURL
-        
-    def openBookFile(bookFileURL):
-        # Open and read the book file. Return an object that represents the opened file
-        pass
-    
-    def getBookInformation(informationTag):
-        pass
-        
-    def getGitInformation():
-        pass
-        
-    def getSimpleInvoice():
-        pass
-    
-    def getDetailedInvoice():
-        pass
-    
-# This class is the actual one that makes the invoices        
-class Typesetter():
-    
-    def getInvoiceTemplate():
-        pass
-        
-    def typesetInformation():
-        pass
-        
-    def typesetSimpleInvoice():
-        pass
-        
-    def typesetDetailedInvoice():
-        pass
+            
 
 # If the program is run from the commandline, run the main function 
 if __name__ == '__main__':

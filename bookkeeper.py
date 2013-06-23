@@ -4,11 +4,11 @@
 # Keeps track of getting and saving boring things such the log files, the total hours worked, the total pay, taxes, other expenses, and detailed statistical breakdowns.
 class Bookkeeper():
     
-    configURL = globalConfigURL+"bookkeeper_Info.conf"
+    defaultConfigURL = "bookkeeper_Info.conf"
     
     # Constructor
-    def __init__(self, currentFolderURL):
-        
+    def __init__(self, baseConfigURL, currentFolderURL):
+        self.ConfigURL = baseConfigURL + defaultConfigURL
         self.bookFileLocation = currentFolderURL
         
     def openBookFile(bookFileURL):

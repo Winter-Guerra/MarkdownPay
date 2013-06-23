@@ -32,32 +32,17 @@ import typesetter
 # Define global variables
 globalConfigURL = "~/.markdownpay/"
 
+version = "ALPHA v0.1"
+
     
 def main():
     
-    print 'Hello World!'
+    args = getCommandlineArgs()
     
-    # Get commandline args
-    parser = argparse.ArgumentParser(description='MarkdownPay -- Easily Track, Calculate, and Invoice Your Freelance Programming Time Using Markdown PDF Invoices.')
-    # Get Version Switch
-    parser.add_argument('--v', action='version', version='%(prog)s v0.1 ALPHA')
+    unpaidProgrammer = programmer.Programmer();
     
-    subparsers = parser.add_subparsers()
+    masterBookkeeper = bookkeeper.Bookkeeper(args.CONFIG);
     
-     # create the parser for the "action" command
-    parser_clockin = subparsers.add_parser('clockin')
-    parser_clockin.set_defaults(clockin=True)
-    parser_clockout = subparsers.add_parser('clockout')
-    parser_clockout.set_defaults(clockout=True)
-    parser_invoice = subparsers.add_parser('invoice')
-    parser_invoice.set_defaults(invoice=True)
-    # Add options for invoices here
-    parser_config = subparsers.add_parser('config')
-    parser_config.set_defaults(config=True)
-
-    args = parser.parse_args()
-    
-    print args
     
     if (hasattr(args, 'clockin')):
         print "--IN CLOCKIN"
@@ -68,11 +53,46 @@ def main():
     elif (hasattr(args, 'config')):
         print "--IN CONFIG"
     
-    # First, read the arguments we were passed.
-    unpaidProgrammer = Programmer();
+    unpaidProgrammer = programmer.Programmer();
     
-    masterBookkeeper = Bookkeeper();
+    masterBookkeeper = bookkeeper.Bookkeeper();
             
+# Sets commandline listeners and returns the passed args.
+def getCommandlineArgs():
+    
+    # Get commandline args
+    parser = argparse.ArgumentParser(description=
+    'MarkdownPay -- Easily Track, Calculate, and Invoice Your Freelance Programming Time Using Markdown PDF Invoices.')
+    # Define switches that can be called no matter what.
+    # version getter
+    parser.add_argument('--v', action='version', version='%(prog)s -- ' + version)
+    # Switch for Overriding Config file location
+    parser.add_argument('--config','--c')
+    
+    # Create listeners for the args
+    subparsers = parser.add_subparsers()
+    # create the parser for the "action" command
+    parser_clockin = subparsers.add_parser('clockin')
+    parser_clockin.set_defaults(clockin=True)
+    parser_clockout = subparsers.add_parser('clockout')
+    parser_clockout.set_defaults(clockout=True)
+    parser_invoice = subparsers.add_parser('invoice')
+    parser_invoice.set_defaults(invoice=True)
+    # Add options for invoices here
+    parser_config = subparsers.add_parser('config')
+    parser_config.set_defaults(config=True)
+    # Return the args gotten
+    args = parser.parse_args()
+    return args
+
+
+class Config():
+
+    def readConfig():
+    
+        config_Dictionary = {}
+    
+        return configDictionary
 
 # If the program is run from the commandline, run the main function 
 if __name__ == '__main__':

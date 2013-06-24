@@ -28,6 +28,7 @@ import os.path
 import bookkeeper
 import programmer
 import typesetter
+import configReader
 
 # Define global variables
 globalConfigURL = "~/.markdownpay/"
@@ -39,60 +40,58 @@ def main():
     
     args = getCommandlineArgs()
     
-    unpaidProgrammer = programmer.Programmer();
+    print 'Arguments given:'
+    print args
     
-    masterBookkeeper = bookkeeper.Bookkeeper(args.CONFIG);
+    unpaidProgrammer = programmer.Programmer(args.configFile)
+    
+    # Init the Bookkeeper with a config url (if any)
+    masterBookkeeper = bookkeeper.Bookkeeper()
     
     
-    if (hasattr(args, 'clockin')):
+    if (args.action_Verb_Arg == 'clockin'):
         print "--IN CLOCKIN"
-    elif (hasattr(args, 'clockout')):
+    elif (args.action_Verb_Arg == 'clockout'):
         print "--IN CLOCKOUT"
-    elif (hasattr(args, 'invoice')):
+    elif (args.action_Verb_Arg == 'invoice'):
         print "--IN INVOICE"
-    elif (hasattr(args, 'config')):
+    elif (args.action_Verb_Arg == 'config'):
         print "--IN CONFIG"
     
-    unpaidProgrammer = programmer.Programmer();
-    
-    masterBookkeeper = bookkeeper.Bookkeeper();
             
 # Sets commandline listeners and returns the passed args.
 def getCommandlineArgs():
     
     # Get commandline args
-    parser = argparse.ArgumentParser(description=
-    'MarkdownPay -- Easily Track, Calculate, and Invoice Your Freelance Programming Time Using Markdown PDF Invoices.')
+    parser = argparse.ArgumentParser()
     # Define switches that can be called no matter what.
     # version getter
     parser.add_argument('--v', action='version', version='%(prog)s -- ' + version)
-    # Switch for Overriding Config file location
-    parser.add_argument('--config','--c')
     
-    # Create listeners for the args
-    subparsers = parser.add_subparsers()
-    # create the parser for the "action" command
-    parser_clockin = subparsers.add_parser('clockin')
+    
+    # Create listeners for the action verbs and their respective configuration flags
+    subparsers = parser.add_subparsers(dest='action_Verb_Arg') 
+    # Action: "clockin"
+    parser_clockin = subparsers.add_parser('clockin', help='Start logging a work session\'s hours.')
     parser_clockin.set_defaults(clockin=True)
-    parser_clockout = subparsers.add_parser('clockout')
+    # Action: "clockout"
+    parser_clockout = subparsers.add_parser('clockout', help='Finish a work session and annotate it\'s description.')
     parser_clockout.set_defaults(clockout=True)
-    parser_invoice = subparsers.add_parser('invoice')
+    # Action: "invoice"
+    parser_invoice = subparsers.add_parser('invoice', help='Make a simple or detailed invoice of all unpaid work sessions. (Defaults to making a detailed invoice.)')
     parser_invoice.set_defaults(invoice=True)
-    # Add options for invoices here
-    parser_config = subparsers.add_parser('config')
+    # Action: "config"
+    parser_config = subparsers.add_parser('config', help='Probably a useless action flag')
     parser_config.set_defaults(config=True)
+    
+    
+    # Switch for Overriding Config file location
+    parser.add_argument('--configFile','--c', default='', help='Override the default configuration folder directory (currently '+globalConfigURL+')')
+    
     # Return the args gotten
     args = parser.parse_args()
     return args
 
-
-class Config():
-
-    def readConfig():
-    
-        config_Dictionary = {}
-    
-        return configDictionary
 
 # If the program is run from the commandline, run the main function 
 if __name__ == '__main__':

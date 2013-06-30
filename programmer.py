@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import os
+import ConfigParser
 
 # This class should only be really used for its information definitions such as name and stuff. Acts as a sort of high level wrapper for the accountant class.
 class Programmer():
@@ -17,7 +18,7 @@ class Programmer():
         self.config_Path = config_Dir + os.sep + configURL
         
         # Make a config reader to get our configuration
-        self.config = configReader(self.config_Path)
+        self.config = getConfig(self.config_Path)
         
         # Get our current project.
         self.project = project()
@@ -32,11 +33,10 @@ class Programmer():
     
     def getConfig(self, URL):
         
-        config = {}
         # Open config file
-        
-        # For each line in file, walk through and find the values.
-        self.info = config
+        config = ConfigParser.SafeConfigParser()
+        config.read(URL)
+        return config
     
     def startWorkunit():
         pass

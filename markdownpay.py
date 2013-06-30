@@ -28,7 +28,7 @@ import os.path
 import bookkeeper
 import programmer
 import typesetter
-import configReader
+import worksessionReader
 
 # Define global variables
 globalConfigURL = "~/.markdownpay/"
@@ -40,13 +40,12 @@ def main():
     
     args = getCommandlineArgs()
     
-    print 'Arguments given:'
-    print args
+    print 'Arguments given: '+str(args)
     
-    unpaidProgrammer = programmer.Programmer(args.configFile)
+    unpaidProgrammer = programmer.Programmer(globalConfigURL)
     
     # Init the Bookkeeper with a config url (if any)
-    masterBookkeeper = bookkeeper.Bookkeeper()
+    masterBookkeeper = bookkeeper.Bookkeeper(globalConfigURL)
     
     
     if (args.action_Verb_Arg == 'clockin'):
@@ -55,8 +54,6 @@ def main():
         print "--IN CLOCKOUT"
     elif (args.action_Verb_Arg == 'invoice'):
         print "--IN INVOICE"
-    elif (args.action_Verb_Arg == 'config'):
-        print "--IN CONFIG"
     
             
 # Sets commandline listeners and returns the passed args.
@@ -80,13 +77,7 @@ def getCommandlineArgs():
     # Action: "invoice"
     parser_invoice = subparsers.add_parser('invoice', help='Make a simple or detailed invoice of all unpaid work sessions. (Defaults to making a detailed invoice.)')
     parser_invoice.set_defaults(invoice=True)
-    # Action: "config"
-    parser_config = subparsers.add_parser('config', help='Probably a useless action flag')
-    parser_config.set_defaults(config=True)
     
-    
-    # Switch for Overriding Config file location
-    parser.add_argument('--configFile','--c', default='', help='Override the default configuration folder directory (currently '+globalConfigURL+')')
     
     # Return the args gotten
     args = parser.parse_args()
